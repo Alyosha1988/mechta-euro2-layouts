@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ЖК «Мечта» — планировки евро2</title>
+  <style>
+    :root {
+      --ink: #0b1220;
+      --muted: #5a6577;
+      --line: #d8dee8;
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --navy: #010d42;
+      --accent: #1a3a8f;
+      --ok: #1f6b3a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.45;
+    }
+    header {
+      background: var(--navy);
+      color: #fff;
+      padding: 1.25rem 1.5rem 1.4rem;
+    }
+    header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.35rem;
+      font-weight: 650;
+      letter-spacing: 0.01em;
+    }
+    header p {
+      margin: 0;
+      opacity: 0.85;
+      font-size: 0.92rem;
+      max-width: 52rem;
+    }
+    main {
+      display: grid;
+      grid-template-columns: minmax(240px, 320px) 1fr;
+      gap: 0;
+      min-height: calc(100vh - 5.5rem);
+    }
+    @media (max-width: 880px) {
+      main { grid-template-columns: 1fr; }
+    }
+    aside {
+      background: var(--card);
+      border-right: 1px solid var(--line);
+      padding: 1rem;
+      overflow: auto;
+    }
+    .group-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 0.85rem 0 0.4rem;
+      font-weight: 650;
+    }
+    .group-title:first-child { margin-top: 0.15rem; }
+    .type-btn {
+      width: 100%;
+      text-align: left;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: 8px;
+      padding: 0.55rem 0.65rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.5rem;
+      color: inherit;
+      font: inherit;
+    }
+    .type-btn:hover { background: #eef2f8; }
+    .type-btn.active {
+      background: #e8eefc;
+      border-color: #c5d0ef;
+    }
+    .type-btn .area { font-weight: 650; }
+    .type-btn .meta { font-size: 0.8rem; color: var(--muted); }
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 650;
+      padding: 0.12rem 0.4rem;
+      border-radius: 999px;
+      background: #e4f3ea;
+      color: var(--ok);
+      white-space: nowrap;
+    }
+    .badge.raw {
+      background: #eef0f4;
+      color: var(--muted);
+    }
+    section.viewer {
+      padding: 1rem 1.25rem 2rem;
+      overflow: auto;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1.1rem 1.2rem;
+    }
+    .panel h2 {
+      margin: 0 0 0.25rem;
+      font-size: 1.15rem;
+    }
+    .panel .sub {
+      margin: 0 0 0.9rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+    .tab {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+    .tab.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+    .frame {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.75rem;
+      min-height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .frame img {
+      max-width: 100%;
+      max-height: min(72vh, 900px);
+      height: auto;
+      display: block;
+    }
+    .hint {
+      margin-top: 0.75rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    footer {
+      grid-column: 1 / -1;
+      padding: 0.7rem 1.25rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: var(--card);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ЖК «Мечта» — планировки евро2</h1>
+    <p>Однокомнатные от 44 м² с двумя окнами по фронту (и типы 50.26 / 61.10). Исходник и принятый эскиз с кухней-нишей и светопрозрачной дверью.</p>
+  </header>
+  <main>
+    <aside id="list"></aside>
+    <section class="viewer">
+      <div class="panel">
+        <h2 id="title">—</h2>
+        <p class="sub" id="subtitle"></p>
+        <div class="tabs" id="tabs"></div>
+        <div class="frame"><img id="preview" alt="Планировка" /></div>
+        <p class="hint" id="hint"></p>
+      </div>
+    </section>
+  </main>
+  <footer>Внутренний материал «Мечта» · сентябрь 2026 · не для публичной витрины без согласования</footer>
+
+  <script>
+    const TYPES = [
+      {
+        id: "44.83",
+        area: 44.83,
+        houses: "дом 11 · Любовь",
+        free: 8,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/kv_44_83-исходник.png" },
+          { label: "Евро2", file: "images/kv_44_83-евро2-эскиз-v4.png" }
+        ]
+      },
+      {
+        id: "44.77",
+        area: 44.77,
+        houses: "дома 1 / 5 · Дружба",
+        free: 8,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/ap_44_77-исходник.png" },
+          { label: "Евро2", file: "images/ap_44_77-евро2-эскиз-v5.png" }
+        ]
+      },
+      {
+        id: "46.69",
+        area: 46.69,
+        houses: "дома 1 / 5 · Дружба",
+        free: 11,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/ap_46_69-исходник.png" },
+          { label: "Евро2", file: "images/ap_46_69-евро2-эскиз-v6.png" }
+        ]
+      },
+      {
+        id: "46.71-5",
+        area: 46.71,
+        houses: "дома 1 / 3 / 5 · вариант дом 5",
+        free: 12,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/ap_46_71-дом5-исходник.png" },
+          { label: "Евро2", file: "images/ap_46_71-дом5-евро2-эскиз-v6.png" }
+        ]
+      },
+      {
+        id: "46.71-2",
+        area: 46.71,
+        houses: "дома 1 / 3 / 5 · вариант дом 2",
+        free: 12,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/ap_46_71-дом2-исходник.png" },
+          { label: "Евро2", file: "images/ap_46_71-дом2-евро2-эскиз-v4.png" }
+        ]
+      },
+      {
+        id: "46.76",
+        area: 46.76,
+        houses: "дом 3 · Дружба",
+        free: 2,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/ap_46_76-исходник.png" },
+          { label: "Евро2", file: "images/ap_46_76-евро2-эскиз-v4.png" }
+        ]
+      },
+      {
+        id: "48.06",
+        area: 48.06,
+        houses: "дом 11 · Любовь",
+        free: 8,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/kv_48_06-исходник.png" },
+          { label: "Евро2", file: "images/kv_48_06-евро2-эскиз-v8.png" }
+        ]
+      },
+      {
+        id: "48.08",
+        area: 48.08,
+        houses: "дом 11 · Любовь",
+        free: 8,
+        pack: "принят 18.09",
+        layouts: [
+          { label: "Исходник", file: "images/kv_48_08-исходник.png" },
+          { label: "Евро2", file: "images/kv_48_08-евро2-эскиз-v2.png" }
+        ]
+      },
+      {
+        id: "50.26",
+        area: 50.26,
+        houses: "дом 11 · Любовь · 3 окна",
+        free: 7,
+        pack: "принят 19.09",
+        layouts: [
+          { label: "Исходник", file: "images/kv_50_26-исходник.png" },
+          { label: "Евро2", file: "images/kv_50_26-евро2-эскиз-v8.png" }
+        ]
+      },
+      {
+        id: "61.10",
+        area: 61.1,
+        houses: "дом 11 · Любовь · 3 окна",
+        free: 3,
+        pack: "принят 19.09",
+        layouts: [
+          { label: "Исходник", file: "images/kv_61_1-исходник.png" },
+          { label: "Евро2", file: "images/kv_61_1-евро2-эскиз-v4.png" }
+        ]
+      },
+      {
+        id: "51.47",
+        area: 51.47,
+        houses: "дом 11 · окна на разных торцах",
+        free: 4,
+        pack: "без переделки",
+        layouts: [
+          { label: "Исходник", file: "images/kv_51_47-исходник.png" }
+        ]
+      }
+    ];
+
+    const list = document.getElementById("list");
+    const title = document.getElementById("title");
+    const subtitle = document.getElementById("subtitle");
+    const tabs = document.getElementById("tabs");
+    const preview = document.getElementById("preview");
+    const hint = document.getElementById("hint");
+
+    let activeId = TYPES[0].id;
+    let layoutIdx = 1;
+
+    function groups() {
+      return [
+        { title: "Дом 11 · Любовь", ids: ["44.83", "48.06", "48.08", "50.26", "61.10", "51.47"] },
+        { title: "Дома 1 / 3 / 5 · Дружба", ids: ["44.77", "46.69", "46.71-5", "46.71-2", "46.76"] }
+      ];
+    }
+
+    function byId(id) {
+      return TYPES.find((t) => t.id === id);
+    }
+
+    function renderList() {
+      list.innerHTML = "";
+      for (const g of groups()) {
+        const h = document.createElement("div");
+        h.className = "group-title";
+        h.textContent = g.title;
+        list.appendChild(h);
+        for (const id of g.ids) {
+          const t = byId(id);
+          const btn = document.createElement("button");
+          btn.className = "type-btn" + (t.id === activeId ? " active" : "");
+          btn.type = "button";
+          btn.innerHTML =
+            `<span><span class="area">${String(t.area).replace(".", ",")} м²</span>` +
+            `<div class="meta">${t.houses} · своб. ${t.free}</div></span>` +
+            `<span class="badge ${t.layouts.length < 2 ? "raw" : ""}">${t.pack}</span>`;
+          btn.addEventListener("click", () => {
+            activeId = t.id;
+            layoutIdx = Math.min(1, t.layouts.length - 1);
+            renderList();
+            renderViewer();
+          });
+          list.appendChild(btn);
+        }
+      }
+    }
+
+    function renderViewer() {
+      const t = byId(activeId);
+      if (layoutIdx >= t.layouts.length) layoutIdx = 0;
+      title.textContent = `${String(t.area).replace(".", ",")} м²`;
+      subtitle.textContent = `${t.houses} · свободных лотов на 01.09: ${t.free}`;
+      tabs.innerHTML = "";
+      t.layouts.forEach((l, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "tab" + (i === layoutIdx ? " active" : "");
+        b.textContent = l.label;
+        b.addEventListener("click", () => {
+          layoutIdx = i;
+          renderViewer();
+        });
+        tabs.appendChild(b);
+      });
+      const layout = t.layouts[layoutIdx];
+      preview.src = layout.file;
+      preview.alt = `${t.area} · ${layout.label}`;
+      hint.textContent =
+        t.layouts.length > 1
+          ? "Вкладки: исходник с сайта / принятый эскиз евро2 (кухня-ниша + светопрозрачная дверь)."
+          : "Этот тип оставлен без переделки (окна на разных торцах).";
+    }
+
+    renderList();
+    renderViewer();
+  </script>
+</body>
+</html>
